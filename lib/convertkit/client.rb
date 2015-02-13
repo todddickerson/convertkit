@@ -14,7 +14,7 @@ module ConvertKit
     end
 
     def form(id)
-      form = ConvertKit::Form.new(id)
+      form = ConvertKit::Form.new(id, self)
       form.client = self
 
       form
