@@ -1,16 +1,15 @@
 require 'httparty'
 
 module ConvertKit
-
   class Client
     include HTTParty
 
     attr_reader :key, :uri, :version
 
-    def initialize(key, uri="https://api.convertkit.com")
+    def initialize(key, uri = "https://api.convertkit.com", version = nil)
       @key     = key
       @uri     = uri
-      @version = 2
+      @version = version || 3
     end
 
     def form(id)
@@ -21,12 +20,11 @@ module ConvertKit
     end
 
     def get_request(path)
-      json = self.class.get("#{@uri}#{path}?k=#{@key}&v=#{@version}")
+      json = self.class.get("#{@uri}/v#{@version}#{path}?api_key=#{@key}")
       JSON.parse(json.body)
     end
 
     def post_request(path, params)
-
       url = "#{@uri}#{path}"
 
       json = self.class.post(url, body: {
@@ -36,6 +34,5 @@ module ConvertKit
       
       JSON.parse(json.body)
     end
-
   end
 end

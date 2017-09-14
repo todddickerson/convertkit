@@ -1,6 +1,5 @@
 module ConvertKit
   class Tag
-
     attr_reader :id, :name, :created_at
     attr_writer :client
 
@@ -24,15 +23,14 @@ module ConvertKit
       @id     = id
       @client = client
     end
-
   end
 
   class Client
     def tags()
       raw   = get_request("/tags")
       tags = []
-
-      raw.each do |raw_tag|
+      return tags unless raw["tags"].present?
+      raw["tags"].each do |raw_tag|
         tag = ConvertKit::Tag.new(raw_tag["id"], self)
         tag.load(raw_tag, self)
 

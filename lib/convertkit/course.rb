@@ -35,8 +35,8 @@ module ConvertKit
     def courses()
       raw   = get_request("/courses")
       courses = []
-
-      raw.each do |raw_course|
+      return courses unless raw["courses"].present?
+      raw["courses"].each do |raw_course|
         course = ConvertKit::Course.new(raw_course["id"], self)
         course.load(raw_course, self)
 

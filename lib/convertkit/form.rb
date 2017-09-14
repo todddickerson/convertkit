@@ -1,6 +1,5 @@
 module ConvertKit
   class Form
-
     attr_reader :id, :subscriber_count, :title, :description, :name, :details, :embed, :success_msg, :button_msg, :created_at, :updated_at
     attr_writer :client
 
@@ -39,15 +38,14 @@ module ConvertKit
       puts opts
       @client.post_request("/forms/#{@id}/subscribe", opts)
     end
-
   end
 
   class Client
     def forms()
       raw   = get_request("/forms")
       forms = []
-
-      raw.each do |raw_form|
+      return forms unless raw["forms"].present?
+      raw["forms"].each do |raw_form|
         form = ConvertKit::Form.new(raw_form["id"], self)
         form.load(raw_form, self)
 
@@ -57,5 +55,4 @@ module ConvertKit
       forms
     end
   end
-  
 end
