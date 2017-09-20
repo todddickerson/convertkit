@@ -25,13 +25,12 @@ module ConvertKit
     end
 
     def post_request(path, params)
-      url = "#{@uri}#{path}"
+      url = "#{@uri}/v#{@version}#{path}"
 
       json = self.class.post(url, body: {
-        k: @key,
-        v: @version,
+        api_key: @key,
         }.merge(params))
-      
+
       JSON.parse(json.body)
     end
   end

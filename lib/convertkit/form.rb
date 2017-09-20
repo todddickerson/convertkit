@@ -34,8 +34,7 @@ module ConvertKit
     end
 
     def subscribe(params)
-      opts = {email: nil, fname: nil, course_opted: true}.merge(params)
-      puts opts
+      opts = { email: nil, name: nil, course_opted: true }.merge(params)
       @client.post_request("/forms/#{@id}/subscribe", opts)
     end
   end
