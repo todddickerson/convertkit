@@ -39,5 +39,10 @@ module ConvertKit
 
       tags
     end
+
+    def create_tags(params)
+      opts = { tag: params }
+      post_request("/tags", opts)
+    end
   end
 end

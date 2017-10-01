@@ -20,12 +20,12 @@ module ConvertKit
     end
 
     def get_request(path)
-      json = self.class.get("#{@uri}/v#{@version}#{path}?api_key=#{@key}")
+      json = self.class.get("#{@uri}/v#{@version}#{path}?api_key=#{@key}&from=clickfunnels")
       JSON.parse(json.body)
     end
 
     def post_request(path, params)
-      url = "#{@uri}/v#{@version}#{path}"
+      url = "#{@uri}/v#{@version}#{path}?from=clickfunnels"
 
       json = self.class.post(url, body: {
         api_key: @key,
