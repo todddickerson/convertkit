@@ -14,7 +14,7 @@ module ConvertKit
       end
 
       it "uses version 2" do
-        expect(client.version).to be(2)
+        expect(client.version).to be(3)
       end
 
       it "uses the https convertkit endpoint" do
