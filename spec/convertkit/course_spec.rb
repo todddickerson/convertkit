@@ -64,6 +64,20 @@ module ConvertKit
   		expect(course.name).to eq("Test Course")
   	end
 
+    context 'when user does not have any courses' do
+      context 'and API returns []' do
+        let(:course_list) { { courses: [] } }
+
+        it { expect(client.courses()).to eq [] }
+      end
+
+      context 'and API returns nil' do
+        let(:course_list) { {} }
+
+        it { expect(client.courses()).to eq [] }
+      end
+    end
+
   	it "returns a single course" do
   		course = ConvertKit::Course.find(4, client)
 

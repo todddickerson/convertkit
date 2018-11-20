@@ -13,7 +13,7 @@ module ConvertKit
         expect(client.key).to be(123)
       end
 
-      it "uses version 2" do
+      it "uses version 3" do
         expect(client.version).to be(3)
       end
 

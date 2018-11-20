@@ -12,8 +12,8 @@ module ConvertKit
             "created_at": "2014-12-20T17:49:34Z",
             "updated_at": "2014-12-20T17:49:44Z",
             "name": "Test form",
-            "details": "https://api.convertkit.com/forms/4812649?k=f9922361d11e7339cc1cde3d54c071&v=2",
-            "embed": "https://api.convertkit.com/forms/4812649/embed?k=f9922361d11e7339cc1cde3d54c071&v=2"
+            "details": "https://api.convertkit.com/v3/forms/4812649?api_key=f9922361d11e7339cc1cde3d54c071",
+            "embed": "https://api.convertkit.com/v3/forms/4812649/embed?api_key=f9922361d11e7339cc1cde3d54c071"
           }
         ]
       }
@@ -47,7 +47,7 @@ module ConvertKit
       stub_request(:get, "https://api.convertkit.com/v3/forms/4812649?api_key=f9922361d11e7339cc1cde3d54c071&from=clickfunnels")
         .to_return(body: form_object.to_json)
       stub_request(:post, "https://api.convertkit.com/v3/forms/4812649/subscribe?from=clickfunnels").
-         with(:body => "api_key=f9922361d11e7339cc1cde3d54c071&email=test%40test.com&first_name=Steve&course_opted=true").
+         with(:body => "api_key=f9922361d11e7339cc1cde3d54c071&email=test%40test.com&name=Steve&course_opted=true").
          to_return(body: add_subscription.to_json)
     end
 
@@ -66,6 +66,20 @@ module ConvertKit
   		expect(form.name).to eq("Test form")
   	end
 
+    context 'when user does not have any forms' do
+      context 'and API returns []' do
+        let(:form_list) { { forms: [] } }
+
+        it { expect(client.forms()).to eq [] }
+      end
+
+      context 'and API returns nil' do
+        let(:form_list) { {} }
+
+        it { expect(client.forms()).to eq [] }
+      end
+    end
+
   	it "returns a single form" do
   		form = ConvertKit::Form.find(4812649, client)
 
@@ -81,7 +95,7 @@ module ConvertKit
 
   	it "allows you to subscribe to a form" do
   		form = ConvertKit::Form.new(4812649, client)
-  		response = form.subscribe(email: "test@test.com", first_name: "Steve")
+  		response = form.subscribe(email: "test@test.com", name: "Steve")
 
   		expect(response["status"]).to eq("created")
   	end

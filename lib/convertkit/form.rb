@@ -34,7 +34,7 @@ module ConvertKit
     end
 
     def subscribe(params)
-      opts = { email: nil, first_name: nil, course_opted: true }.merge(params)
+      opts = { email: nil, name: nil, course_opted: true }.merge(params)
 
       @client.post_request("/forms/#{@id}/subscribe", opts)
     end
@@ -44,7 +44,7 @@ module ConvertKit
     def forms()
       raw   = get_request("/forms")
       forms = []
-      return forms unless raw["forms"].any?
+      return forms if raw["forms"].nil?
       raw["forms"].each do |raw_form|
         form = ConvertKit::Form.new(raw_form["id"], self)
         form.load(raw_form, self)

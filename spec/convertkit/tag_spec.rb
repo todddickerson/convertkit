@@ -55,6 +55,21 @@ module ConvertKit
       tag = tags.first
       expect(tag.id).to eq(4812649)
       expect(tag.name).to eq("Tag Test")
+
+    end
+
+    context 'when user does not have any tags' do
+      context 'and API returns []' do
+        let(:tag_list) { { tags: [] } }
+
+        it { expect(client.tags()).to eq [] }
+      end
+
+      context 'and API returns nil' do
+        let(:tag_list) { {} }
+
+        it { expect(client.tags()).to eq [] }
+      end
     end
 
     it "returns a single tag" do
