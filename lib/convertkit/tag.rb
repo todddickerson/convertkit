@@ -29,7 +29,7 @@ module ConvertKit
     def tags()
       raw   = get_request("/tags")
       tags = []
-      return tags unless raw["tags"].present?
+      return tags if raw["tags"].nil?
       raw["tags"].each do |raw_tag|
         tag = ConvertKit::Tag.new(raw_tag["id"], self)
         tag.load(raw_tag, self)

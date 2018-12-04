@@ -24,12 +24,16 @@ module ConvertKit
       JSON.parse(json.body)
     end
 
-    def post_request(path, params)
+    def post_request(path, params, follow_redirects: false)
       url = "#{@uri}/v#{@version}#{path}?from=clickfunnels"
 
-      json = self.class.post(url, body: {
-        api_key: @key,
-        }.merge(params))
+      json = self.class.post(
+        url,
+        follow_redirects: follow_redirects,
+        body: {
+          api_key: @key,
+        }.merge(params)
+      )
 
       JSON.parse(json.body)
     end
